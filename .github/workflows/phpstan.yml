@@ -1,0 +1,17 @@
+name: PHPStan
+
+on: [push]
+
+jobs:
+  analyse-codebase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Composer
+        uses: php-actions/composer@v6
+      - name: Analyse Codebase
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/
+          configuration: ./phpstan.neon
