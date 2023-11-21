@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use SpiralOver\Nerve\Client\Dto\NeuronDto;
 use SpiralOver\Nerve\Client\Exceptions\RequestFailureException;
-use SpiralOver\Nerver\Client\ClientTrait;
 
 class Neuron
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace SpiralOver\Nerver\Client;
+namespace SpiralOver\Nerve\Client;
 
 trait ClientTrait
 {
