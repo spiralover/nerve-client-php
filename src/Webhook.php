@@ -10,8 +10,8 @@ readonly class Webhook
      */
     public static function capture(string $secret): Webhook
     {
-        $hash = $hash ?? $_SERVER['HTTP_X_NERVE_IMPULSE_HASH'];
-        $message = $payload ?? file_get_contents('php://input');
+        $hash = $_SERVER['HTTP_X_NERVE_IMPULSE_HASH'];
+        $message = file_get_contents('php://input');
 
         return self::captureManual(
             secret: $secret,
