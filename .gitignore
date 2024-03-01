@@ -2,4 +2,7 @@
 /vendor
 
 composer.lock
+server.php
+server-log*
+emit.php
 test.php

@@ -11,8 +11,9 @@ class Neuron
 {
     use ClientTrait;
 
-    public const API_VERSION = 'v1';
-    public const SERVER_LOCAL = 'http://localhost:4301';
+    public const API_VERSION_1_0 = 'v1';
+    public const SERVER_LOCAL = 'http://localhost:4303';
+    public const SERVER_DOCKER = 'http://192.168.87.1:4303';
     public const SERVER_SPIRALOVER = 'https://nerve.spiralover.com';
 
 
@@ -27,8 +28,8 @@ class Neuron
      */
     public static function client(
         string $pat,
-        string $server = Neuron::SERVER_LOCAL,
-        string $apiVersion = Neuron::API_VERSION,
+        string $server,
+        string $apiVersion = Neuron::API_VERSION_1_0,
     ): Neuron
     {
         return new static(pat: $pat, server: $server, apiVersion: $apiVersion);
@@ -155,7 +156,10 @@ class Neuron
      * @param string $name Event name
      * @param array $data Event data
      * @param string $endpoint Payload receiving endpoint
+     * @param string $uniqueReference
      * @param string|null $callback
+     * @param string|null $secretKey Hash event with this secret key
+     * @param ImpulseReceiverType $receiverType Type of this event receiver
      * @param bool $callbackOnSuccess Weather to call you back when the webhook accept this impulse
      * @param bool $callbackOnFailure Weather to call you back when the webhook reject this impulse or throws error handling it
      * @return string
@@ -163,17 +167,24 @@ class Neuron
      * @throws RequestFailureException
      */
     public function emitImpulse(
-        string  $neuronId,
-        string  $name,
-        array   $data,
-        string  $endpoint,
-        ?string $callback = null,
-        bool    $callbackOnSuccess = false,
-        bool    $callbackOnFailure = false,
+        string              $neuronId,
+        string              $name,
+        array               $data,
+        string              $endpoint,
+        string              $uniqueReference,
+        ?string             $callback = null,
+        ?string             $secretKey = null,
+        ImpulseReceiverType $receiverType = ImpulseReceiverType::ENDPOINT,
+        bool                $callbackOnSuccess = false,
+        bool                $callbackOnFailure = false,
     ): string
     {
         $this->withData([
             'endpoint' => $endpoint,
+            'callback' => $callback,
+            'reference' => $uniqueReference,
+            'secret_key' => $secretKey,
+            'receiver_type' => $receiverType->getApiValue(),
             'impulse_name' => $name,
             'impulse_data' => $data,
             'callback_on_success' => $callbackOnSuccess,

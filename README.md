@@ -58,9 +58,10 @@ use SpiralOver\Nerve\Client\Neuron;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$client  = Neuron::client(pat: '<personal-access-token>');
+$client  = Neuron::client(pat: '<personal-access-token>');    
+$uniqueReference = sprintf('my-unique-app-prefix-%s', uniqid(more_entropy: true));
 $response = $client->emitImpulse(
-    neuronId: '2eb91dc3-b8ad-4d41-a207-963cec055fac',
+    neuronId: 'ba666184-1e8d-43c0-b59a-ac7240897875',
     name: 'user.created',
     data: [
         'first_name' => 'Jane',
@@ -68,6 +69,7 @@ $response = $client->emitImpulse(
         'email' => 'jane.doe@example.com'
     ],
     endpoint: 'http://localhost:9999',
+    uniqueReference: $uniqueReference,
     callback: 'http://localhost:7777',
     callbackOnSuccess: false,
     callbackOnFailure: true
@@ -85,7 +87,7 @@ use SpiralOver\Nerve\Client\Webhook;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$webhook  = Webhook::capture(secret: '<neuron-secret-key>');
+$webhook  = Webhook::capture(secret: '<personal-access-token>');
 if (!$webhook->isVerified) {    // impulse verification failed
     http_response_code(401);
 }
@@ -105,7 +107,7 @@ require __DIR__ . '/vendor/autoload.php';
 $client  = Neuron::client(
     pat: '<personal-access-token>',
     server: Neuron::SERVER_SPIRALOVER,
-    apiVersion: 'v1'
+    apiVersion: Neuron::API_VERSION_1_0
 );
 ```
 
