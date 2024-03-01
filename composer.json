@@ -2,7 +2,7 @@
     "name": "spiralover/nerve-client",
     "description": "Webhook Payload Routing Client",
     "type": "project",
-    "license": "Private",
+    "license": "MIT",
     "authors": [
         {
             "name": "ahmard",
