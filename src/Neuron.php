@@ -154,7 +154,7 @@ class Neuron
     /**
      * @param string $neuronId
      * @param string $name Event name
-     * @param array $data Event data
+     * @param array|object $data Event data
      * @param string $endpoint Payload receiving endpoint
      * @param string $uniqueReference
      * @param string|null $callback
@@ -169,7 +169,7 @@ class Neuron
     public function emitImpulse(
         string              $neuronId,
         string              $name,
-        array               $data,
+        array|object        $data,
         string              $endpoint,
         string              $uniqueReference,
         ?string             $callback = null,
