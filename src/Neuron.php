@@ -162,7 +162,7 @@ class Neuron
      * @param ImpulseReceiverType $receiverType Type of this event receiver
      * @param bool $callbackOnSuccess Weather to call you back when the webhook accept this impulse
      * @param bool $callbackOnFailure Weather to call you back when the webhook reject this impulse or throws error handling it
-     * @return string
+     * @return NerveResponse
      * @throws GuzzleException
      * @throws RequestFailureException
      */
@@ -177,7 +177,7 @@ class Neuron
         ImpulseReceiverType $receiverType = ImpulseReceiverType::ENDPOINT,
         bool                $callbackOnSuccess = false,
         bool                $callbackOnFailure = false,
-    ): string
+    ): NerveResponse
     {
         $this->withData([
             'endpoint' => $endpoint,
@@ -191,11 +191,9 @@ class Neuron
             'callback_on_failure' => $callbackOnFailure,
         ]);
 
-        $response = NerveResponse::new(response: $this->client->post(
+        return NerveResponse::new(response: $this->client->post(
             uri: sprintf('neurons/%s/emit-impulse', $neuronId),
             options: $this->getClientOptions(),
         ));
-
-        return $response->message();
     }
 }
