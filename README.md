@@ -25,6 +25,8 @@ $neurons = $client->list();
 // Create
 $created = $client->create(
     name: 'My Neuron 1',
+    uniqueName: 'my.neuron.1',
+    visibility: 'public',
     url: 'localhost:7788',
     webhook: 'localhost:7788/webhook',
     desc: 'Hello World',
@@ -34,13 +36,15 @@ $created = $client->create(
 $updated = $client->update(
     id: $created->neuron_id,
     name: 'My Neuron 1',
+    uniqueName: 'my.neuron.1',
+    visibility: 'public',
     url: 'localhost:7788',
     webhook: 'localhost:7788/webhook',
     desc: 'Hello World',
 );
 
 // Fetch Info
-$viewed = $neuron->read('2eb91dc3-b8ad-4d41-a207-963cec055fac');
+$viewed = $neuron->read($created->neuron_id);
 
 // Delete
 $message = $neuron->delete($created->neuron_id);
@@ -72,7 +76,8 @@ $response = $client->emitImpulse(
     uniqueReference: $uniqueReference,
     callback: 'http://localhost:7777',
     callbackOnSuccess: false,
-    callbackOnFailure: true
+    callbackOnFailure: true,
+    withImpulseMetadata: true
 );
 ```
 
