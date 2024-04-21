@@ -68,4 +68,9 @@ class NerveResponse
     {
         return $this->decodedResponse['data'] ?? null;
     }
+
+    public function records(): mixed
+    {
+        return $this->data()['records'] ?? [];
+    }
 }

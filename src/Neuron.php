@@ -59,7 +59,7 @@ class Neuron
         ));
 
         $neurons = [];
-        foreach ($response->data() as $neuron) {
+        foreach ($response->records() as $neuron) {
             $neurons[] = NeuronDto::from($neuron);
         }
 
@@ -100,6 +100,8 @@ class Neuron
 
     /**
      * @param string $name
+     * @param string $uniqueName
+     * @param string $visibility
      * @param string $url
      * @param string $webhook
      * @param string $desc
@@ -107,10 +109,19 @@ class Neuron
      * @throws GuzzleException
      * @throws RequestFailureException
      */
-    public function create(string $name, string $url, string $webhook, string $desc): NeuronDto
+    public function create(
+        string $name,
+        string $uniqueName,
+        string $visibility,
+        string $url,
+        string $webhook,
+        string $desc
+    ): NeuronDto
     {
         $this->withData([
             'name' => $name,
+            'unique_name' => $uniqueName,
+            'visibility' => $visibility,
             'url' => $url,
             'webhook' => $webhook,
             'description' => $desc,
@@ -127,6 +138,8 @@ class Neuron
     /**
      * @param string $id
      * @param string $name
+     * @param string $uniqueName
+     * @param string $visibility
      * @param string $url
      * @param string $webhook
      * @param string $desc
@@ -134,10 +147,20 @@ class Neuron
      * @throws GuzzleException
      * @throws RequestFailureException
      */
-    public function update(string $id, string $name, string $url, string $webhook, string $desc): NeuronDto
+    public function update(
+        string $id,
+        string $name,
+        string $uniqueName,
+        string $visibility,
+        string $url,
+        string $webhook,
+        string $desc
+    ): NeuronDto
     {
         $this->withData([
             'name' => $name,
+            'unique_name' => $uniqueName,
+            'visibility' => $visibility,
             'url' => $url,
             'webhook' => $webhook,
             'description' => $desc,
@@ -177,6 +200,7 @@ class Neuron
         ImpulseReceiverType $receiverType = ImpulseReceiverType::ENDPOINT,
         bool                $callbackOnSuccess = false,
         bool                $callbackOnFailure = false,
+        bool                $withImpulseMetadata = true,
     ): NerveResponse
     {
         $this->withData([
@@ -189,6 +213,7 @@ class Neuron
             'impulse_data' => $data,
             'callback_on_success' => $callbackOnSuccess,
             'callback_on_failure' => $callbackOnFailure,
+            'with_impulse_metadata' => $withImpulseMetadata,
         ]);
 
         return NerveResponse::new(response: $this->client->post(
